@@ -1,4 +1,13 @@
-<p align="center"><img src="https://github.com/lightbulblighter/Rboxlo2/raw/main/Branding/Logos/Primary/Big.png" width="60%"><br><i>Project Eclipse 🌙</i></p>
+<p align="center"><img src="https://github.com/lightbulblighter/Rboxlo2/raw/main/Branding/Logos/Primary/Big.png" width="60%"><br><i>Project Eclipse 🌙</i>
+<br><br>
+<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Flightbulblighter%2FRboxlo2?ref=badge_shield">
+	<img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Flightbulblighter%2FRboxlo2.svg?type=shield" alt="FOSSA Status">
+</a>
+
+<a href="https://github.com/lightbulblighter/Rboxlo2/blob/master/LICENSE">
+	<img src="https://img.shields.io/github/license/lightbulblighter/Rboxlo2" alt="GitHub License">
+</a>
+</p>
 <hr>
 
 Rboxlo is a **free, open-source** Roblox private server application that can be used to relive childhood memories and create new ones. Using Rboxlo, you can set-up your own Roblox private server in minutes with the ability to play Roblox clients dating all the way back to 2007, and as modern as 2017. Rboxlo was created to truly decentralize Roblox, and to eventually eclipse the proprietary closed-source Roblox revivals that exist today.
