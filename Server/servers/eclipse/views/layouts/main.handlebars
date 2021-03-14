@@ -64,7 +64,7 @@
         <footer class="footer mt-auto py-3 bg-light">
             <div class="container">
                 {{#block "footer"}}
-                    <span class="text-muted">Running {{ env.VERSION }}</span>
+                    <span class="text-muted">Running {{ env.VERSION.name }} - {{ env.VERSION.version }} {{#if env.VERSION.commit}}(<a href="https://github.com/lightbulblighter/Rboxlo2/tree/{{ env.VERSION.commit }}">{{ substring env.VERSION.commit 0 8 }}</a>){{/if}}</span>
                 {{/block}}
             </div>
         </footer>

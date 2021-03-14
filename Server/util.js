@@ -17,13 +17,14 @@ exports.readFile = (path) => {
 }
 
 exports.getVersion = () => {
-    let version = `${exports.titlecase(global.rboxlo.env.NAME)} - ${exports.readFile(path.join(__dirname, "packaging", "version"))}`
-
-    if (fs.existsSync(path.join(__dirname, "packaging", "commit"))) {
-        version += ` (${exports.readFile(path.join(__dirname, "packaging", "commit")).replace(/^\s+|\s+$/g, "").substring(0, 7)})`
+    let out = {
+        name: exports.titlecase(global.rboxlo.env.NAME),
+        version: exports.readFile(path.join(__dirname, "packaging", "version"))
     }
 
-    return version
-}
+    if (fs.existsSync(path.join(__dirname, "packaging", "commit"))) {
+        out.commit = exports.readFile(path.join(__dirname, "packaging", "commit")).replace(/^\s+|\s+$/g, "")
+    }
 
-exports.getVersion()
+    return out
+}

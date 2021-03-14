@@ -1,5 +1,3 @@
-// handlebars turing complete when??
-
 var exports = module.exports = {}
 
 const util = require("./util")
@@ -12,4 +10,8 @@ exports.strcmp = (x, y, opt) => {
 
 exports.strcicmp = (x, y, opt) => {
     return (x.toLowerCase() == y.toLowerCase()) ? opt.fn(this) : opt.inverse(this)
+}
+
+exports.substring = (str, start, end) => {
+    return str.substring(start, end)
 }
