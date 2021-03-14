@@ -9,7 +9,8 @@ let app = express()
 let hosting = []
 
 if (!process.env.DOCKER) {
-    if (process.env.SERVER_OVERRIDE_DOCKER.toLowerCase() == "false") {
+    // This is an unmentioned, undocumented environment override. Debugging only
+    if (!process.env.SERVER_OVERRIDE_DOCKER) {
         console.log("Not running in Docker, exiting...")
         process.exit(1)
     }
