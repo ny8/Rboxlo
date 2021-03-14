@@ -6,12 +6,12 @@ using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
-namespace Rboxlo.Core.Platform
+namespace Rboxlo.Core.Platform.Windows
 {
     /// <summary>
     /// Methods and variables specific to the Windows operating system. These are all tested to work on Win10 ONLY
     /// </summary>
-    public static class Windows
+    public static class Util
     {
         [DllImport("user32.dll")]
         private static extern int GetWindowLong(IntPtr hwnd, int index);
