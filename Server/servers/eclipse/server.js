@@ -45,5 +45,7 @@ if (global.rboxlo.env.SERVER_X_POWERED_BY) {
 
 // Routes
 app.use("/", require("./routes/main"))
+app.use("/games", require("./routes/games"))
+app.use("/account", require("./routes/account"))
 
 module.exports.app = app

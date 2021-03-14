@@ -24,15 +24,28 @@
         <header>
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">{{ env.PROPER_NAME }}</a>
+                    <a class="navbar-brand" href="/">{{ env.PROPER_NAME }}</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                            {{#block "navigation-bar-items"}}
+                            {{#block "navigation-bar-items-start"}}
                                 <li class="nav-item">
-                                    <a class="nav-link{{#if page.home}} active{{/if}}" href="/" {{#if page.home}}aria-current="page"{{/if}}>Home</a>
+                                    <a class="nav-link{{#if page.home}} active{{/if}}" href="{{#if page.home}}#{{else}}/{{/if}}" {{#if page.home}}aria-current="page"{{/if}}>Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{#if page.games}} active{{/if}}" href="{{#if page.games}}#{{else}}/games{{/if}}" {{#if page.games}}aria-current="page"{{/if}}>Games</a>
+                                </li>
+                            {{/block}}
+                        </ul>
+                        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                            {{#block "navigation-bar-items-end"}}
+                                <li class="nav-item">
+                                    <a class="nav-link{{#if page.register}} active{{/if}}" href="{{#if page.register}}#{{else}}/account/create{{/if}}" {{#if page.register}}aria-current="page"{{/if}}>Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{#if page.login}} active{{/if}}" href="{{#if page.login}}#{{else}}/account/login{{/if}}" {{#if page.login}}aria-current="page"{{/if}}>Login</a>
                                 </li>
                             {{/block}}
                         </ul>

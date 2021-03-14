@@ -1,0 +1,22 @@
+{{#> layout}}
+    {{#content "body"}}
+        <br>
+        <div class="card">
+            <div class="card-header">Sign in</div>
+            <div class="card-body">
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input id="username" name="username" type="text" class="form-control" required="required">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" name="password" type="password" class="form-control" required="required">
+                    </div>
+                </form>
+                <button id="submit" type="submit" class="btn btn-primary">Sign in</button>
+            </div>
+        </div>
+        <br>
+    {{/content}}
+{{/layout}}
