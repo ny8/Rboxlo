@@ -45,7 +45,7 @@ Tree-view of Rboxlo application
     - Okra
         - Not an Express website
         - Is the middleman for Arbiter communication
-        - Using Tootsie, can manually talk to Okra
+        - Tootsie can manually talk to Okra
         - Eclipse talks to Okra automatically to create servers
         - Hosts chatbots
             - IRC or Discord
