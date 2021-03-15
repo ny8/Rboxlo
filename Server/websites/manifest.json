@@ -2,7 +2,7 @@
     "eclipse": {
         "entrypoint": "/websites/eclipse/server.js",
         "domains": [
-            "SPECIAL_ITEM_PLEASE_IGNORE_ME_DONT_ADD_THIS_TO_HOSTS_FILE_ADD_THE_ONES_BELOW_INSTEAD",
+            "INDEX",
             "www",
             "abuse",
             "accountsettings",

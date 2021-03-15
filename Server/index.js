@@ -1,7 +1,7 @@
 const vhost = require("vhost")
 const express = require("express")
 const manifest = require("./websites/manifest.json")
-const epiculy = "SPECIAL_ITEM_PLEASE_IGNORE_ME_DONT_ADD_THIS_TO_HOSTS_FILE_ADD_THE_ONES_BELOW_INSTEAD"
+const magic = "INDEX"
 
 global.rboxlo = {}
 
@@ -48,7 +48,7 @@ if (!global.rboxlo.env.PRODUCTION) process.env.DEBUG = "express:*"
 // Autoload websites
 for (const [name, website] of Object.entries(manifest)) {
     for (let i = 0; i < website.domains.length; i++) {
-        let domain = (website.domains[i] == epiculy ? "" : website.domains[i].toLowerCase())
+        let domain = (website.domains[i] === magic ? "" : website.domains[i].toLowerCase())
 
         if (hosting.includes(domain)) {
             throw `Duplicate vhost was found for website "${name}", vhost was "${domain}"`
