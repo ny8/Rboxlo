@@ -2,7 +2,7 @@ const express = require("express")
 const exphbs = require("express-handlebars")
 const layouts = require("handlebars-layouts")
 const path = require("path")
-const hbh = require("../../hbh")
+const hbh = require("./helpers")
 const util = require("../../util")
 
 let app = express()
