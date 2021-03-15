@@ -1,6 +1,4 @@
-const express = require("express")
-
-var router = express.Router()
+var router = require("express").Router()
 
 router.get("/", (req, res) => {
     var date = new Date().toISOString().replace("-", "/").split("T")[0].replace("-", "/")

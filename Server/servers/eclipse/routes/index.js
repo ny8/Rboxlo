@@ -1,6 +1,4 @@
-const express = require("express")
-
-var router = express.Router()
+var router = require("express").Router()
 
 // Views
 router.use("/", require("./main"))
