@@ -9,7 +9,7 @@ function middleware(req, res) {
 }
 
 // Don't modify this
-module.exports.obj = ((req, res, next) => {
+module.exports = {obj: ((req, res, next) => {
     middleware(req, res)
     next()
-})
+})}
