@@ -1,3 +1,5 @@
+const moment = require("moment")
+
 var router = require("express").Router()
 
 router.get("/", (req, res) => {
@@ -11,7 +13,7 @@ router.get("/", (req, res) => {
                 home: true
             },
             objects: {
-                date: date
+                date: moment(Date.now()).format("M/D/YYYY h:mm a")
             }
         }
     )
