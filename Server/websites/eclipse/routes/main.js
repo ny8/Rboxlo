@@ -3,8 +3,6 @@ const moment = require("moment")
 var router = require("express").Router()
 
 router.get("/", (req, res) => {
-    var date = new Date().toISOString().replace("-", "/").split("T")[0].replace("-", "/")
-    
     res.render(
         "home",
         {
