@@ -21,7 +21,7 @@ app.locals.env = {
 }
 
 // Set up view engine
-let hbs = exphbs.create({ helpers: hbh })
+let hbs = exphbs.create({ helpers: hbh, extname: ".hbs" })
 
 hbs.handlebars.registerHelper(layouts(hbs.handlebars))
 hbs.handlebars.registerPartial("partials/layout", "{{prefix}}")
