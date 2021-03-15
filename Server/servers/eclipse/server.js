@@ -30,22 +30,12 @@ app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname, "views"))
 
-// X-Powered-By header
-// A: Why is it an ASCII char array? To hopefully deter CTRL+SHIFT+Fs of "Rboxlo"
-// B: Why is "Rboxlo" hardcoded here? Because Rboxlo is the application powering it
-app.disable("x-powered-by")
-if (global.rboxlo.env.SERVER_X_POWERED_BY) {
-    app.use((req, res, next) => {
-        let poweredBy = [ 82, 98, 111, 120, 108, 111, 47, 49, 46, 48, 46, 48 ] // "Rboxlo/1.0.0"
-        res.setHeader("X-Powered-By", String.fromCharCode.apply(null, poweredBy))
+app.disable("x-powered-by") // Disable "Express" in X-Powered-By
 
-        next()
-    })
-}
+// Use our Rboxlo middleware
+app.use(require("./middleware").obj)
 
 // Routes
-app.use("/", require("./routes/main"))
-app.use("/games", require("./routes/games"))
-app.use("/account", require("./routes/account"))
+app.use(require("./routes"))
 
 module.exports.app = app
