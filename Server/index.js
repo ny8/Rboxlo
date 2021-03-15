@@ -1,6 +1,6 @@
 const vhost = require("vhost")
 const express = require("express")
-const manifest = require("./servers/manifest.json")
+const manifest = require("./websites/manifest.json")
 const epiculy = "SPECIAL_ITEM_PLEASE_IGNORE_ME_DONT_ADD_THIS_TO_HOSTS_FILE_ADD_THE_ONES_BELOW_INSTEAD"
 
 global.rboxlo = {}
