@@ -11,10 +11,11 @@ Specific hosts
 Tree-view of Rboxlo application
 
 - Rboxlo.Server
-    - Core is ExpressJS, view system is Handlebars
     - Run using Node.JS
     - Built as an image using Docker and is run in a container
+    - Autoloads websites (Eclipse, Tootsie) and runs services (Tootsie)
     - Eclipse
+        - Core is ExpressJS, view system is Handlebars
         - Main website
         - All Roblox and Rboxlo-specific APIs
             - Roblox APIs compatibile with applications designed around the Roblox API, and Roblox applications using it
@@ -23,6 +24,7 @@ Tree-view of Rboxlo application
             - There is no "ban user", "delete thread", "delete server" type of buttons integrated into the frontend if you are a moderator. These are all things that go to Tootsie. There is nothing moderator-related in Eclipse's frontend, such as an admin panel.
         - Basically where everything happens
     - Tootsie
+        - Same core as Eclipse
         - Sensitive website for moderation and control of Rboxlo
         - Master panel
             - Password is independent of users, and is manually set before Rboxlo.Server runs

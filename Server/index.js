@@ -45,23 +45,26 @@ for (let i = 0; i < keys.length; i++) {
 process.env.NODE_ENV = (global.rboxlo.env.PRODUCTION ? "production" : "development")
 if (!global.rboxlo.env.PRODUCTION) process.env.DEBUG = "express:*"
 
-// Load all the services (O(n^2))
-for (const [name, service] of Object.entries(manifest)) {
-    for (let i = 0; i < service.domains.length; i++) {
-        let domain = (service.domains[i] == epiculy ? "" : service.domains[i].toLowerCase())
+// Autoload websites
+for (const [name, website] of Object.entries(manifest)) {
+    for (let i = 0; i < website.domains.length; i++) {
+        let domain = (website.domains[i] == epiculy ? "" : website.domains[i].toLowerCase())
 
         if (hosting.includes(domain)) {
-            throw `Duplicate vhost was found for service "${name}", vhost was "${domain}"`
+            throw `Duplicate vhost was found for website "${name}", vhost was "${domain}"`
         }
 
         hosting.push(domain)
-        app.use(vhost(`${domain}${domain == "" ? "" : "."}${global.rboxlo.env.SERVER_DOMAIN}`, require(`.${service.entrypoint}`).app))
+        app.use(vhost(`${domain}${domain == "" ? "" : "."}${global.rboxlo.env.SERVER_DOMAIN}`, require(`.${website.entrypoint}`).app))
     }
 }
 
-// Start the server
+// Autoload services
+
+// Boot everything up
+// 1: Website master server
 app.listen(global.rboxlo.env.SERVER_PORT, () => {
     console.log(`Running ${global.rboxlo.env.NAME} on port ${global.rboxlo.env.SERVER_PORT}`)
 })
 
-// Okra will be loaded somewhere here...
+// 2: Services
