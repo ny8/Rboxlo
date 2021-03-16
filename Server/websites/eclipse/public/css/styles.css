@@ -35,6 +35,3 @@
 
 /* Sticky footer */
 main > .container { padding-top: 60px }
-
-/* Background */
-body { background: url("/img/background.jpg") no-repeat center center fixed }
