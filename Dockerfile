@@ -7,15 +7,16 @@ WORKDIR /usr/src/app
 
 # Server
 COPY /Server/package*.json ./
-RUN npm install
 COPY /Server ./
+RUN rm -rf ./node_modules
+RUN npm install
 
 # Branding
-COPY /Branding/Artwork/Backdrops/Bricks.png ./servers/eclipse/public/img/art/bricks.png
-COPY /Branding/Artwork/Backdrops/Main.png ./servers/eclipse/public/img/art/default.png
+COPY /Branding/Artwork/Backdrops/Bricks.png ./wesbites/eclipse/public/img/art/bricks.png
+COPY /Branding/Artwork/Backdrops/Main.png ./websites/eclipse/public/img/art/default.png
 
-COPY /Branding/Logos/Primary/Big.png ./servers/eclipse/public/img/brand/large.png
-COPY /Branding/Logos/Primary/Small.png ./servers/eclipse/public/img/brand/small.png
+COPY /Branding/Logos/Primary/Big.png ./websites/eclipse/public/img/brand/large.png
+COPY /Branding/Logos/Primary/Small.png ./websites/eclipse/public/img/brand/small.png
 
 # Packaging
 RUN mkdir ./packaging
