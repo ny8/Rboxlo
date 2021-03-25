@@ -1,27 +1,38 @@
 FROM node:14-alpine
 ARG SERVER_PORT
-
 ENV DOCKER true
 
-WORKDIR /usr/src/app
+# Create source folder
+RUN mkdir /app
+WORKDIR /app
 
-# Server
+# Copy server files
 COPY /Server/package*.json ./
 COPY /Server ./
 RUN rm -rf ./node_modules
 RUN npm install
 
-# Branding
+# Copy branding files
 COPY /Branding/Artwork/Backdrops/Bricks.png ./wesbites/eclipse/public/img/art/bricks.png
 COPY /Branding/Artwork/Backdrops/Main.png ./websites/eclipse/public/img/art/default.png
-
 COPY /Branding/Logos/Primary/Big.png ./websites/eclipse/public/img/brand/large.png
 COPY /Branding/Logos/Primary/Small.png ./websites/eclipse/public/img/brand/small.png
 
-# Packaging
+# Copy files necessary for packaging
 RUN mkdir ./packaging
 COPY /Packaging/Version ./packaging/version
 COPY /.git/refs/heads/main ./packaging/commit
+
+# Grant permissions on application folder to all users as we are about to switch users
+RUN chmod a+rwx /app
+
+# Create and switch to a non-root user
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --no-create-home \
+    "app"
+USER app
 
 EXPOSE ${SERVER_PORT}
 CMD [ "node", "index.js" ]
