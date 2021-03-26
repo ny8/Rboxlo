@@ -11,6 +11,8 @@ services:
       - "./.env"
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
+    volumes:
+      - "./Containers/Server/data:/app/data"
   database:
     container_name: "${NAME}_database"
     image: "mysql"
