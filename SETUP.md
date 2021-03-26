@@ -1,7 +1,7 @@
 # Setting up Rboxlo
 The process to download and set up a Rboxlo instance is trivial. This is a small guide that details how to set up Rboxlo.
 
-If you experience any issues while setting up Rboxlo, please [file an issue](https://github.com/lightbulblighter/Rboxlo2/issues/new) and attach the error message you receieved (or a full error log.) If the instructions are too confusing and need clarification, you are also welcome to file an issue containing what part you got stuck on. It is better to ask for help than move on and potentially leave your Rboxlo instance insecure, opening up holes for attackers to exploit.
+If you experience any issues while setting up Rboxlo, please [file an issue](https://github.com/lightbulblighter/Rboxlo/issues/new) and attach the error message you receieved (or a full error log.) If the instructions are too confusing and need clarification, you are also welcome to file an issue containing what part you got stuck on. It is better to ask for help than move on and potentially leave your Rboxlo instance insecure, opening up holes for attackers to exploit.
 
 ## Prerequisites
 This guide assumes you have the following applications installed. If you do not have them installed, you should go get them now.
@@ -12,7 +12,7 @@ This guide assumes you have the following applications installed. If you do not 
 - Docker (on Windows, you can get Docker for Desktop, but on Unix systems you can simply run this one-liner: `sudo apt-get update && sudo apt-get install docker && sudo apt-get install docker-compose`)
 
 ## Guide
-1. Clone this repository using Git by running this command in your terminal: `git clone https://github.com/lightbulblighter/Rboxlo2`
+1. Clone this repository using Git by running this command in your terminal: `git clone https://github.com/lightbulblighter/Rboxlo`
 2. Navigate to the directory you have cloned the repository in.
 3. Now we are going to edit our environment. Copy the `.env.sample` file and rename the copied file to `.env`.
 4. Open your new `.env` file in your text editor.

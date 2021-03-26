@@ -1,11 +1,9 @@
-<p align="center"><img src="https://github.com/lightbulblighter/Rboxlo2/raw/main/Branding/Logos/Primary/Big.png" width="60%"><br><i>Project Eclipse 🌙</i>
+<p align="center">
+<i>Looking for the old Rboxlo repository? Click <a href="https://github.com/lightbulblighter/Rboxlo-old">here!</a></i><br><br>
+<img src="https://github.com/lightbulblighter/Rboxlo/raw/trunk/Branding/Logos/Primary/Big.png" width="60%"><br><i>Project Eclipse 🌙</i>
 <br><br>
-<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Flightbulblighter%2FRboxlo2?ref=badge_shield">
-	<img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Flightbulblighter%2FRboxlo2.svg?type=shield" alt="FOSSA Status">
-</a>
-
-<a href="https://github.com/lightbulblighter/Rboxlo2/blob/master/LICENSE">
-	<img src="https://img.shields.io/github/license/lightbulblighter/Rboxlo2" alt="GitHub License">
+<a href="https://github.com/lightbulblighter/Rboxlo/blob/master/LICENSE">
+	<img src="https://img.shields.io/github/license/lightbulblighter/Rboxlo" alt="GitHub License">
 </a>
 </p>
 <hr>
@@ -14,7 +12,7 @@ Rboxlo is a **free, open-source** Roblox private server application that can be 
 
 ## Features
 
-<img src="https://github.com/lightbulblighter/Rboxlo2/raw/main/Branding/Artwork/SwordNoob.png" align="right" width="20%">
+<img src="https://github.com/lightbulblighter/Rboxlo/raw/trunk/Branding/Artwork/SwordNoob.png" align="right" width="20%">
 
 **Fully open-source and decentralized**
 
@@ -54,13 +52,13 @@ Rboxlo officially supports Linux and Windows out of the box at the server and cl
 - **Docker** 20.10.0+
 - **Visual Studio** 2019+
 
-The requirements are very short and sweet because Docker is used to run the entire server, and Visual Studio is used to build the client applications. Detailed instructions on how to deploy Rboxlo are available in [SETUP.MD](https://github.com/lightbulblighter/Rboxlo2/blob/main/SETUP.md).
+The requirements are very short and sweet because Docker is used to run the entire server, and Visual Studio is used to build the client applications. Detailed instructions on how to deploy Rboxlo are available in [SETUP.MD](https://github.com/lightbulblighter/Rboxlo/blob/trunk/SETUP.md).
 
 ## Contributing
 
 Rboxlo is public domain software licensed under the **Unlicense**.
 
-We ask that all potential contributors take a look at the [code of conduct](https://github.com/lightbulblighter/Rboxlo2/blob/main/CONTRIBUTING.md) before contributing in order to ensure healthy discourse.
+We ask that all potential contributors take a look at the [code of conduct](https://github.com/lightbulblighter/Rboxlo/blob/trunk/CONTRIBUTING.md) before contributing in order to ensure healthy discourse.
 
 If you have a contribution to make, [please "unlicense" it.](http://unlicense.org/) The reason behind this requirement is because of some vague copyright laws in the United States allowing for the usage of loopholes that could potentially deteroriate Rboxlo's public domain status. **This only applies to pull requests.**
 
