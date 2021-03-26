@@ -4,8 +4,8 @@ const path = require("path")
 
 const user = require(path.join(global.rboxlo.root, "websites", "eclipse", "lib", "user"))
 
-router.get("/", user.loggedOut, (req, res) => {
-    res.render("home", { page: { title: "Home", home: true } })
+router.get("/dashboard", user.authenticated, (req, res) => {
+    res.render("my/dashboard", { page: { title: "Dashboard", dashboard: true } })
 })
 
 module.exports = router

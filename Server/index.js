@@ -1,6 +1,10 @@
-const vhost = require("vhost")
 const express = require("express")
-const manifest = require("./websites/manifest.json")
+const path = require("path")
+const vhost = require("vhost")
+
+const manifest = require(path.join(__dirname, "websites", "manifest.json"))
+const util = require(path.join(__dirname, "util"))
+
 const magic = "INDEX"
 
 global.rboxlo = {}
@@ -41,6 +45,9 @@ for (let i = 0; i < keys.length; i++) {
     global.rboxlo.env[keys[i]] = value
 }
 
+// Set root
+global.rboxlo.root = __dirname
+
 // Set Node debugging variables
 process.env.NODE_ENV = (global.rboxlo.env.PRODUCTION ? "production" : "development")
 if (!global.rboxlo.env.PRODUCTION) process.env.DEBUG = "express:*"
@@ -55,7 +62,7 @@ for (const [name, website] of Object.entries(manifest)) {
         }
 
         hosting.push(domain)
-        app.use(vhost(`${domain}${domain == "" ? "" : "."}${global.rboxlo.env.SERVER_DOMAIN}`, require(`.${website.entrypoint}`).app))
+        app.use(vhost(`${domain}${domain == "" ? "" : "."}${global.rboxlo.env.SERVER_DOMAIN}`, require(path.join(__dirname, website.entrypoint)).app))
     }
 }
 
@@ -64,7 +71,8 @@ for (const [name, website] of Object.entries(manifest)) {
 // Boot everything up
 // 1: Website master server
 app.listen(global.rboxlo.env.SERVER_PORT, () => {
-    console.log(`Running ${global.rboxlo.env.NAME} on port ${global.rboxlo.env.SERVER_PORT}`)
+    console.log(`Running ${util.titlecase(global.rboxlo.env.NAME)} on port ${global.rboxlo.env.SERVER_PORT}`)
 })
 
-// 2: Services
+// 2: Services (Okra, etc.)
+// TODO
