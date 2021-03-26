@@ -24,7 +24,7 @@ COPY /Packaging/Version ./packaging/version
 COPY /.git/refs/heads/main ./packaging/commit
 
 # Grant permissions on application folder to all users as we are about to switch users
-RUN chmod a+rwx /app
+RUN chmod -R 777 /app
 
 # Create and switch to a non-root user
 RUN adduser \
