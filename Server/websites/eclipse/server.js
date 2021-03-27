@@ -5,6 +5,7 @@ const path = require("path")
 const cookieSession = require("cookie-session")
 const cookieParser = require("cookie-parser")
 const bp = require("body-parser")
+const rateLimit = require("express-rate-limit")
 
 const hbh = require(path.join(__dirname, "helpers"))
 const util = require(path.join(global.rboxlo.root, "util"))
@@ -57,6 +58,13 @@ app.use((err, req, res, next) => {
     res.status(403)
     // provide no further context
 })
+
+// Rate limiting
+// NOTE: If you have CloudFlare limits are done automatically
+app.use(rateLimit({
+    windowMs: (10 * 60 * 1000), // 10 minutes
+    max: 100 // 100 requests per 10 minutes
+}))
 
 // Routes
 app.use(require(path.join(__dirname, "routes")))
