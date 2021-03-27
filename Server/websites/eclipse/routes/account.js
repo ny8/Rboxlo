@@ -92,16 +92,23 @@ router.post("/login", user.loggedOut, csrf, async (req, res) => {
                 }
                 
                 req.session.rboxlo.user = (await user.getNecessarySessionInfoForUser(response.id))
-                res.redirect(req.session.rboxlo.redirect !== undefined ? req.session.rboxlo.redirect : "/my/dashboard")
 
-                delete req.session.rboxlo.redirect
+                if (req.session.rboxlo.redirect !== undefined) {
+                    res.redirect(req.session.rboxlo.redirect)
+                    delete req.session.rboxlo.redirect
+                } else {
+                    res.redirect("/my/dashboard")
+                }
             } else {
                 for (const [target, value] of Object.entries(response.targets)) {
                     out.objects.form[target].invalid = true
                     out.objects.form[target].message = value
                 }
 
-                delete req.session.rboxlo.redirect // WTF IS THIS SYNTAX
+                if (req.session.rboxlo.redirect !== undefined) {
+                    delete req.session.rboxlo.redirect
+                }
+                
                 res.render("account/login", out)
             }
         })
