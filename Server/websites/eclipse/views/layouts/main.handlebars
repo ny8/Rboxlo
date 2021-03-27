@@ -33,14 +33,14 @@
                             {{#block "navigation-bar-items-start"}}
                                 {{#unless session}}
                                     <li class="nav-item">
-                                        <a class="nav-link{{#if (def page.home)}} active{{/if}}" href="{{#if (def page.home)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/{{/if}}"{{#if (def page.home)}}aria-current="page"{{/if}}>Home</a>
+                                        <a class="nav-link{{#if (def page.home)}} active{{/if}}" href="{{#if (def page.home)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/{{/if}}"{{#if (def page.home)}} aria-current="page"{{/if}}>Home</a>
                                     </li>
                                 {{else}}
                                     <li class="nav-item">
-                                        <a class="nav-link{{#if (def page.dashboard)}} active{{/if}}" href="{{#if (def page.dashboard)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/my/dashboard{{/if}}"{{#if (def page.dashboard)}}aria-current="page"{{/if}}>Dashboard</a>
+                                        <a class="nav-link{{#if (def page.dashboard)}} active{{/if}}" href="{{#if (def page.dashboard)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/my/dashboard{{/if}}"{{#if (def page.dashboard)}} aria-current="page"{{/if}}>Dashboard</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link{{#if (def page.games)}} active{{/if}}" href="{{#if (def page.games)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/games{{/if}}"{{#if (def page.games)}}aria-current="page"{{/if}}>Games</a>
+                                        <a class="nav-link{{#if (def page.games)}} active{{/if}}" href="{{#if (def page.games)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/games{{/if}}"{{#if (def page.games)}} aria-current="page"{{/if}}>Games</a>
                                     </li>
                                 {{/unless}}
                             {{/block}}
@@ -49,10 +49,10 @@
                             {{#block "navigation-bar-items-end"}}
                                 {{#unless session}}
                                     <li class="nav-item">
-                                        <a class="nav-link{{#if (def page.login)}} active{{/if}}" href="{{#if (def page.login)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/account/login{{/if}}"{{#if (def page.login)}}aria-current="page"{{/if}}>Login</a>
+                                        <a class="nav-link{{#if (def page.login)}} active{{/if}}" href="{{#if (def page.login)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/account/login{{/if}}"{{#if (def page.login)}} aria-current="page"{{/if}}>Login</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link{{#if (def page.register)}} active{{/if}}" href="{{#if (def page.register)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/account/create{{/if}}"{{#if (def page.register)}}aria-current="page"{{/if}}>Register</a>
+                                        <a class="nav-link{{#if (def page.register)}} active{{/if}}" href="{{#if (def page.register)}}#{{else}}{{ rboxlo.PROPER_DOMAIN }}/account/create{{/if}}"{{#if (def page.register)}} aria-current="page"{{/if}}>Register</a>
                                     </li>
                                 {{else}}
                                     <li class="nav-item">
