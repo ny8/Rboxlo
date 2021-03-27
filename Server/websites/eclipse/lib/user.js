@@ -545,7 +545,7 @@ exports.authenticate = (information, ip, userAgent, antiRobot = false, rememberM
     
         // 2: Username and password simple validation
         {
-            if ((!information.username || information.password.length == 0) && !response.targets.username) {
+            if ((!information.username || information.username.length == 0) && !response.targets.username) {
                 response.targets.username = "In order to sign in, you need to specify a username."
             }
     
