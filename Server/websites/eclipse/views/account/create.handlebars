@@ -39,6 +39,7 @@
                         {{#unless objects.form.password2}}<div class="invalid-feedback">{{ objects.form.password2.message }}</div>{{/unless}}
                         {{/if}}
                     </div>
+                    <input type="hidden" name="_csrf" value="{{ objects.csrf }}">
                     <button id="submit" type="submit" class="btn btn-primary">Sign up</button>
                 </form>
             </div>

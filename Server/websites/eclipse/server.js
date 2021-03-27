@@ -50,6 +50,14 @@ app.use(cookieParser({ secret: global.rboxlo.env.SERVER_COOKIE_SECRET }))
 // Use our Rboxlo middleware
 app.use(require(path.join(__dirname, "middleware")).obj)
 
+// CSRF protection
+app.use((err, req, res, next) => {
+    if (err.code !== "EBADCSRFTOKEN") return next(err)
+
+    res.status(403)
+    // provide no further context
+})
+
 // Routes
 app.use(require(path.join(__dirname, "routes")))
 

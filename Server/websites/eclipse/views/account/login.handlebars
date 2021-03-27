@@ -25,6 +25,7 @@
                             <label class="form-check-label" for="rememberMe">Remember me</label>
                         </div>
                     </div>
+                    <input type="hidden" name="_csrf" value="{{ objects.csrf }}">
                     <button id="submit" class="btn btn-primary{{#if objects.challenge}} g-recaptcha{{/if}}" {{#if objects.challenge}}data-sitekey="{{ rboxlo.GOOGLE_RECAPTCHA_PUBLIC_KEY }}" data-callback="submit"{{else}}type="loginSubmit"{{/if}}>Sign in</button>
                 </form>
             </div>

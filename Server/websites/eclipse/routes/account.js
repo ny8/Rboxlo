@@ -1,12 +1,15 @@
 var router = require("express").Router()
 
 const path = require("path")
+const csurf = require("csurf")
 
 const user = require(path.join(global.rboxlo.root, "websites", "eclipse", "lib", "user"))
 
+var csrf = csurf({ cookie: true })
+
 // It sounds so beautiful
 
-router.post("/create", user.loggedOut, (req, res) => {
+router.post("/create", user.loggedOut, csrf, (req, res) => {
     user.createAccount(req.body, req.rboxlo.ip, true).then(async (response) => {
         if (response.success) {
             req.session.user = await user.getNecessarySessionInfoForUser(response.id)
@@ -15,6 +18,7 @@ router.post("/create", user.loggedOut, (req, res) => {
             let objects = {
                 form: {username: {invalid: false}, email: {invalid: false}, password1: {invalid: false}, password2: {invalid: false}}
             }
+            objects.csrf = req.csrfToken()
     
             for (const [target, value] of Object.entries(response.targets)) {
                 objects.form[target].invalid = true
@@ -35,11 +39,11 @@ router.post("/create", user.loggedOut, (req, res) => {
     })
 })
 
-router.get("/create", user.loggedOut, (req, res) => {
-    res.render("account/create", { page: { title: "Register", register: true } })
+router.get("/create", user.loggedOut, csrf, (req, res) => {
+    res.render("account/create", { page: { title: "Register", register: true }, objects: { csrf: req.csrfToken() } })
 })
 
-router.post("/login", user.loggedOut, async (req, res) => {
+router.post("/login", user.loggedOut, csrf, async (req, res) => {
     let information = req.body
     let out = {
         page: {
@@ -50,7 +54,8 @@ router.post("/login", user.loggedOut, async (req, res) => {
             form: {
                 username: { invalid: false },
                 password: { invalid: false }
-            }
+            },
+            csrf: req.csrfToken()
         }
     }
 
@@ -105,8 +110,8 @@ router.post("/login", user.loggedOut, async (req, res) => {
     }
 })
 
-router.get("/login", user.loggedOut, async (req, res) => {
-    let out = { page: { title: "Login", login: true } }
+router.get("/login", user.loggedOut, csrf, async (req, res) => {
+    let out = { page: { title: "Login", login: true }, objects: { csrf: req.csrfToken() } }
     if (await user.needsAuthenticationChallenge(req.rboxlo.ip)) {
         out.objects = { challenge: true }
     }
