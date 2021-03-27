@@ -12,7 +12,7 @@ var csrf = csurf({ cookie: true })
 router.post("/create", user.loggedOut, csrf, (req, res) => {
     user.createAccount(req.body, req.rboxlo.ip, true).then(async (response) => {
         if (response.success) {
-            req.session.user = await user.getNecessarySessionInfoForUser(response.id)
+            req.session.rboxlo.user = await user.getNecessarySessionInfoForUser(response.id)
             res.redirect("/my/dashboard")
         } else {
             let objects = {
@@ -91,17 +91,17 @@ router.post("/login", user.loggedOut, csrf, async (req, res) => {
                     })
                 }
                 
-                req.session.user = (await user.getNecessarySessionInfoForUser(response.id))
-                res.redirect(req.session.redirect !== undefined ? req.session.redirect : "/my/dashboard")
+                req.session.rboxlo.user = (await user.getNecessarySessionInfoForUser(response.id))
+                res.redirect(req.session.rboxlo.redirect !== undefined ? req.session.rboxlo.redirect : "/my/dashboard")
 
-                delete req.session.redirect
+                delete req.session.rboxlo.redirect
             } else {
                 for (const [target, value] of Object.entries(response.targets)) {
                     out.objects.form[target].invalid = true
                     out.objects.form[target].message = value
                 }
 
-                delete req.session.redirect // WTF IS THIS SYNTAX
+                delete req.session.rboxlo.redirect // WTF IS THIS SYNTAX
                 res.render("account/login", out)
             }
         })
@@ -121,8 +121,8 @@ router.get("/login", user.loggedOut, csrf, async (req, res) => {
 
 // This method is not barred
 router.get("/logout", (req, res) => {
-    if (req.session.hasOwnProperty("user")) {
-        delete req.session.user
+    if (req.session.rboxlo.hasOwnProperty("user")) {
+        delete req.session.rboxlo.user
     }
 
     if (req.cookies.remember_me) {

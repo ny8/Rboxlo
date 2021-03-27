@@ -7,7 +7,8 @@ const user = require(path.join(__dirname, "lib", "user"))
 
 async function middleware(req, res) {
     req.rboxlo = {}
-    req.session.bust = moment().unix()
+    req.session.rboxlo = {}
+    req.session.rboxlo.bust = moment().unix() // resets contents each page req
 
     // X-Powered-By header
     // A: Why is it an ASCII char array? To hopefully deter CTRL+SHIFT+Fs of "Rboxlo"
@@ -29,23 +30,23 @@ async function middleware(req, res) {
     }
 
     // Session security
-    if (!req.session.ip) {
-        req.session.ip = req.rboxlo.ip
+    if (!req.session.rboxlo.ip) {
+        req.session.rboxlo.ip = req.rboxlo.ip
     } else {
-        if (req.session.ip !== req.rboxlo.ip) {
+        if (req.session.rboxlo.ip !== req.rboxlo.ip) {
             // Clear the session if different IP
-            req.session.user = null
-            req.session.ip = req.rboxlo.ip
+            req.session.rboxlo = {}
+            req.session.rboxlo.ip = req.rboxlo.ip
         }
     }
     
     // Remember me
-    if (req.cookies.remember_me && !req.session.user) {
+    if (req.cookies.remember_me && !req.session.rboxlo.user) {
         let verified = await user.verifyLongTermSession(req.cookies.remember_me)
 
         if (verified !== false) {
             let info = await user.getNecessarySessionInfoForUser(verified)
-            req.session.user = info
+            req.session.rboxlo.user = info
         } else {
             // crumbs of a cookie, sweep it up
             res.clearCookie("remember_me")
@@ -54,10 +55,10 @@ async function middleware(req, res) {
 
     // Non-sensitive session details for view engine
     // FYI: Session NEVER gets changed besides at registration and sign-in, so we only do this once (or at least try to-- these are set once per request)
-    if (req.session.user && !res.locals.session) {
+    if (req.session.rboxlo.user && !res.locals.session) {
         res.locals.session = {
-            id: req.session.user.id,
-            username: req.session.user.username
+            id: req.session.rboxlo.user.id,
+            username: req.session.rboxlo.user.username
         }
     }
 }

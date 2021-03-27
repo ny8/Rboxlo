@@ -800,11 +800,11 @@ exports.verifyCaptcha = (ip, response) => {
  * Checks if a user is authenticated for routes, if not, redirects to login page
  */
 exports.authenticated = (req, res, next) => {
-    if (req.session.user) {
+    if (req.session.rboxlo.user) {
         return next()
     }
 
-    req.session.redirect = `${req.protocol}://${req.get("host")}${req.originalUrl}`
+    req.session.rboxlo.redirect = `${req.protocol}://${req.get("host")}${req.originalUrl}`
     res.redirect("/account/login")
 }
 
@@ -812,7 +812,7 @@ exports.authenticated = (req, res, next) => {
  * Checks if a user is not authenticated for routes, if they ARE authenticated, it just puts them in their dashboard
  */
 exports.loggedOut = (req, res, next) => {
-    if (!req.session.user) {
+    if (!req.session.rboxlo.user) {
         return next()
     }
 
