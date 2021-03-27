@@ -273,7 +273,7 @@ function validateInviteKey (key) {
  * @returns {(bool|array)} If the invite key was not found, returns FALSE. Otherwise, returns an associative array containing the columns "id", "uses", and "max_uses" of the invite key row. If returnAllColumns is set to TRUE, it will return all columns of the invite key row, including "id", "uses", and "max_uses".
  */
 async function getInviteKeyInfo (inviteKey, returnAllColumns) {
-    if (!validInviteKey(inviteKey)) {
+    if (!validateInviteKey(inviteKey)) {
         return false
     }
 
