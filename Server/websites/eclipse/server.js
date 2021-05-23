@@ -14,13 +14,11 @@ let app = express()
 
 // Expose some non-sensitive variables to the view engine
 app.locals.rboxlo = {
-    NAME: global.rboxlo.env.NAME,
-    PROPER_NAME: util.titlecase(global.rboxlo.env.NAME),
-    VERSION: util.getVersion(),
-    DOMAIN: global.rboxlo.env.SERVER_DOMAIN,
-    PROPER_DOMAIN: `${global.rboxlo.env.SERVER_HTTPS ? "https://" : "http://"}${global.rboxlo.env.SERVER_DOMAIN}`,
-    DSR: (global.rboxlo.env.PRODUCTION ? ".min" : ""), // "Debug Static Resource"
-    CAPTCHA: global.rboxlo.env.GOOGLE_RECAPTCHA_PUBLIC_KEY
+    name: util.titlecase(global.rboxlo.env.NAME),
+    version: util.getVersion(),
+    domain: `${global.rboxlo.env.SERVER_HTTPS ? "https://" : "http://"}${global.rboxlo.env.SERVER_DOMAIN}`,
+    dsr: (global.rboxlo.env.PRODUCTION ? ".min" : ""), // "Debug Static Resource"
+    captchaKey: global.rboxlo.env.GOOGLE_RECAPTCHA_PUBLIC_KEY
 }
 
 // Set up view engine
@@ -45,7 +43,7 @@ app.use(cookieSession({
 
 // Parse requests
 app.use(bp.json())
-app.use(bp.urlencoded({ extended: false })) // no qs
+app.use(bp.urlencoded({ extended: true }))
 app.use(cookieParser({ secret: global.rboxlo.env.SERVER_COOKIE_SECRET }))
 
 // Use our Rboxlo middleware
@@ -55,7 +53,7 @@ app.use(require(path.join(__dirname, "middleware")).obj)
 app.use((err, req, res, next) => {
     if (err.code !== "EBADCSRFTOKEN") return next(err)
 
-    res.status(403)
+    res.sendStatus(403)
     // provide no further context
 })
 

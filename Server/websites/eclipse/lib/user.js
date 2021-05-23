@@ -10,7 +10,7 @@ const path = require("path")
 const validator = require("validator")
 const zxcvbn = require("zxcvbn")
 
-const kryptshun = require(path.join(global.rboxlo.root, "kryptshun")) // UHH UHH UHH IM GAY??
+const kryptshun = require(path.join(global.rboxlo.root, "kryptshun"))
 const sql = require(path.join(global.rboxlo.root, "sql"))
 const util = require(path.join(global.rboxlo.root, "util"))
 
@@ -91,7 +91,7 @@ function generateDefaultAvatar (stringified = true) {
  */
 function generateDefaultPreferences (stringified = true) {
     let preferences = {
-        "blurb": `Hi! I'm new to ${util.titlecase(global.rboxlo.env.NAME)}.`,
+        "blurb": `Hi! I'm new to ${global.rboxlo.name}.`,
         "theme": 0, // Light theme
         "2fa": false
     }
@@ -110,7 +110,7 @@ function generateDefaultPreferences (stringified = true) {
  * 
  * @returns {(string|array)} Either an array or a stringified version of it, depending on what stringified is set to
  */
- function generateDefaultPermissions (stringified = true) {
+function generateDefaultPermissions (stringified = true) {
     let permissions = {
         "places": {
             "creation": true,                    // User can create places
@@ -475,13 +475,12 @@ exports.createLongTermSession = async (ip, userAgent, userId, returnSession = fa
 /**
  * Formats a long term session into a way that can be stored in a cookie
  * 
- * @param {string} selector Session selector
- * @param {string} validator Session validator
+ * @param {array} session Session containing "selector" and "validator" elements
  * 
  * @returns {string} Formatted long term session in "selector:validator" form
  */
-exports.formatLongTermSession = (selector, validator) => {
-    return `${selector}:${validator}`
+exports.formatLongTermSession = (session) => {
+    return `${session.selector}:${session.validator}`
 }
 
 /**
@@ -500,6 +499,8 @@ exports.getNecessarySessionInfoForUser = async (userId) => {
 
     user.permissions = JSON.parse(user.permissions)
     user.avatar = JSON.parse(user.avatar)
+    user.preferences = JSON.parse(user.preferences)
+    user.last_ping = JSON.parse(user.last_ping)
 
     return user
 }
@@ -545,20 +546,20 @@ exports.authenticate = (information, ip, userAgent, antiRobot = false, rememberM
     
         // 2: Username and password simple validation
         {
-            if ((!information.username || information.username.length == 0) && !response.targets.username) {
+            if (!response.targets.hasOwnProperty("username") && (!information.hasOwnProperty("username") || information.username.length == 0)) {
                 response.targets.username = "In order to sign in, you need to specify a username."
             }
     
-            if ((!information.password || information.password.length == 0) && !response.targets.password) {
+            if (!response.targets.hasOwnProperty("password") && (!information.hasOwnProperty("password") || information.password.length == 0)) {
                 response.targets.password = "In order to sign in, you need to specify a password."
             }
         }
     
         // 3: Database validation
         {
-            if (!response.targets.password && !response.targets.username) {
+            if (!response.targets.hasOwnProperty("password") && !response.targets.hasOwnProperty("username")) {
                 // Set the default error message for username to "Invalid username or password."
-                // If we succeed, we are not resolving with response
+                // If we succeed, we are not resolving with the response variable
                 response.targets.username = "Invalid username or password."
     
                 let query = "SELECT `id`, `password_hash` FROM `users` WHERE `username` = ?"
@@ -573,7 +574,7 @@ exports.authenticate = (information, ip, userAgent, antiRobot = false, rememberM
                 if (result.length > 0) {
                     let user = result[0]
                     if (await kryptshun.passwordVerify(user.password_hash, information.password)) {
-                        let out = { success: true, id: user.id }
+                        let out = { success: true, userId: user.id }
 
                         if (rememberMe) {
                             let longTermSession = await exports.createLongTermSession(ip, userAgent, user.id, true)
@@ -608,55 +609,55 @@ exports.createAccount = (information, ip, userAgent, generateThumbnail = true) =
 
         // 1: Password, username, and E-Mail simple validation
         {
-            if (!information.username || information.username.length == 0) {
+            if (!response.targets.hasOwnProperty("username") && (!information.hasOwnProperty("username") || information.username.length == 0)) {
                 response.targets.username = "Please choose a username."
             }
     
-            if (!validator.isAlphanumeric(information.username) && !response.targets.username) {
+            if (!response.targets.hasOwnProperty("username") && !validator.isAlphanumeric(information.username)) {
                 response.targets.username = "Only alphanumeric usernames are allowed."
             }
     
-            if (information.username.length < 3 && !response.targets.username) {
+            if (!response.targets.hasOwnProperty("username") && information.username.length < 3) {
                 response.targets.username = "Your username has to be at least 3 characters or more."
             }
     
-            if (information.username.length > 20 && !response.targets.username) {
+            if (!response.targets.hasOwnProperty("username") && information.username.length > 20) {
                 response.targets.username = "Your username has to be less than 20 characters."
             }
     
-            if (!information.email || information.email.length == 0) {
+            if (!response.targets.hasOwnProperty("email") && (!information.hasOwnProperty("email") || information.email.length == 0)) {
                 response.targets.email = "Please enter a E-Mail address."
             }
     
-            if (!response.targets.email) {
+            if (!response.targets.hasOwnProperty("email")) {
                 information.email = util.filterEmail(information.email)
-                if (information.email === false && !response.targets.email) {
+                if (information.email === false) {
                     response.targets.email = "Invalid E-Mail address."
                 }
             }
     
-            if (information.email.length > 128 && !response.targets.email) {
+            if (!response.targets.hasOwnProperty("email") && information.email.length > 128) {
                 response.targets.email = "Your E-Mail address cannot exceed 128 characters."
             }
     
-            if (!information.password1 || information.password1.length == 0) {
+            if (!response.targets.hasOwnProperty("password1") && (!information.hasOwnProperty("password1") || information.password1.length == 0)) {
                 response.targets.password1 = "Please choose a password."
             }
             
-            if (information.password1.length <= 12 && !response.targets.password1) {
+            if (!response.targets.hasOwnProperty("password1") && information.password1.length <= 12) {
                 response.targets.password1 = "Your password must be longer than 12 characters."
             }
     
-            if (information.password1.length > 4096 && !response.targets.password1) {
+            if (!response.targets.hasOwnProperty("password1") && information.password1.length > 4096) {
                 response.targets.password1 = "Your password must be shorter than 4096 characters."
             }
     
-            if (!response.targets.password1) {
+            if (!response.targets.hasOwnProperty("password1")) {
                 let secure = zxcvbn(information.password1)
                 if (secure.score < 3) {
                     let message = "Your password is not secure enough."
     
-                    if (secure.feedback.suggestions && secure.feedback.suggestions.length > 0) {
+                    if (secure.feedback.hasOwnProperty("suggestions") && secure.feedback.suggestions.length > 0) {
                         message += ` ${secure.feedback.suggestions[0]}`
                     }
     
@@ -664,45 +665,46 @@ exports.createAccount = (information, ip, userAgent, generateThumbnail = true) =
                 }
             }
     
-            if (!information.password2 || information.password2.length == 0) {
+            if (!response.targets.hasOwnProperty("password2") && (!information.hasOwnProperty("password2") || information.password2.length == 0)) {
                 response.targets.password2 = "You must confirm your password."
             }
     
-            if ((information.password2 !== information.password1) && !response.targets.password2) {
+            if ((!response.targets.hasOwnProperty("password1") && !response.targets.hasOwnProperty("password2")) && (information.password1 !== information.password2)) {
                 response.targets.password2 = "Passwords do not match."
             }
         }
     
         // 2: Database validation
-        var stop
-    
         {
-            if (!response.targets.username) {
+            var stop
+
+            // TODO: These can be cached somehow.
+            if (!response.targets.hasOwnProperty("username")) {
                 let result = await sql.run("SELECT 1 FROM `users` WHERE `username` = ?", information.username)
                 if (result.length > 0) {
                     response.targets.username = "That username is currently taken by another user."
                 }
             }
     
-            if (!response.targets.email) {
+            if (!response.targets.hasOwnProperty("email")) {
                 let result = await sql.run("SELECT 1 FROM `users` WHERE `email_blind_index` = ?", (await kryptshun.blind(information.email)))
                 if (result.length > 3) {
                     response.targets.email = "Too many accounts exist with this E-Mail address."
                 }
             }
+
+            stop = (response.targets.hasOwnProperty("username") || response.targets.hasOwnProperty("email") || response.targets.hasOwnProperty("password1") || response.targets.hasOwnProperty("password2"))
         }
-    
-        stop = (response.targets.username || response.targets.email || response.targets.password1 || response.targets.password2)
-    
+
         // 3: Create account
         if (!stop) {
             // 3a: Invite key check
             if (global.rboxlo.env.PROJECT_PRIVATE_INVITE_KEY) {
-                if (!information.invite_key || information.invite_key.length == 0) {
-                    response.targets.invite_key = `You need an invite key to register on ${util.titlecase(global.rboxlo.env.NAME)}.`
+                if (!response.targets.hasOwnProperty("invite_key") && (!information.hasOwnProperty("invite_key") || information.invite_key.length == 0)) {
+                    response.targets.invite_key = `You need an invite key in order to register on ${global.rboxlo.name}.`
                 }
     
-                if (!response.targets.invite_key) {
+                if (!response.targets.hasOwnProperty("invite_key")) {
                     let key = getInviteKeyInfo(information.invite_key)
     
                     if (key === false) {
@@ -711,21 +713,23 @@ exports.createAccount = (information, ip, userAgent, generateThumbnail = true) =
                         response.targets.invite_key = "That invite key has already been used."
                     }
     
-                    if (!response.targets.invite_key) {
+                    if (!response.targets.hasOwnProperty("invite_key")) {
                         var inviteKey = key.id
                     }
                 }
     
-                stop = (stop || response.targets.invite_key)
+                stop = (stop || response.targets.hasOwnProperty("invite_key"))
             }
     
             // 3b: Actually create account
             if (!stop) {
                 if (global.rboxlo.env.PROJECT_PRIVATE_INVITE_KEY && inviteKey !== undefined) {
-                    // Punch invite key
-                    // TODO
+                    // TODO: This routine and invite key SQL table structure
+
+                    // The user is registering via an invite key. Mark the invite key as used.
                 }
                 
+                // Prepare values for user row entry
                 let password = await kryptshun.passwordHash(information.password1)
                 let emailCiphertext = kryptshun.encrypt(information.email)
                 let emailBlind = await kryptshun.blind(information.email)
@@ -738,21 +742,21 @@ exports.createAccount = (information, ip, userAgent, generateThumbnail = true) =
                 let preferences = generateDefaultPreferences()
                 let avatar = generateDefaultAvatar()
     
-                // Blind+Encrypt IP and sign in history
+                // Blind our IP and encrypt the sign in history
                 let signInHistory = kryptshun.encrypt(generateDefaultSignInHistory(ip, userAgent))
                 let ipBlind = await kryptshun.blind(ip)
                 
-                // Create acc...
+                // Insert row for this user
                 await sql.run(
                     "INSERT INTO `users` (`username`, `password_hash`, `email_ciphertext`, `email_blind_index`, `joindate_timestamp`, `last_stipend_timestamp`, `last_ping`, `permissions`, `preferences`, `avatar`, `sign_in_history`, `register_ip_blind_index`, `2fa_secret`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [information.username, password, emailCiphertext, emailBlind, joindate, last_stipend_timestamp, lastPing, permissions, preferences, avatar, signInHistory, ipBlind, ""]
                 )
     
-                // I need the ID!
+                // Fetch ID
                 let result = (await sql.run("SELECT `id` FROM `users` WHERE `username` = ?", information.username))[0]
                 
-                // response schtuff.
-                response.id = result.id
+                // Response
+                response.userId = result.id
                 response.success = true
     
                 if (generateThumbnail) setDefaultThumbnail(result.id)
@@ -789,7 +793,7 @@ exports.verifyCaptcha = (ip, response) => {
     .then(util.fetchNet)
     .then(util.parseFetchJSON)
     .then((data) => {
-        return (data.success !== undefined && data.success === true)
+        return (data.success === true)
     })
 }
 
@@ -800,7 +804,7 @@ exports.verifyCaptcha = (ip, response) => {
  * Checks if a user is authenticated for routes, if not, redirects to login page
  */
 exports.authenticated = (req, res, next) => {
-    if (req.session.rboxlo.user) {
+    if (req.session.rboxlo.hasOwnProperty("user")) {
         return next()
     }
 
@@ -812,7 +816,7 @@ exports.authenticated = (req, res, next) => {
  * Checks if a user is not authenticated for routes, if they ARE authenticated, it just puts them in their dashboard
  */
 exports.loggedOut = (req, res, next) => {
-    if (!req.session.rboxlo.user) {
+    if (!req.session.rboxlo.hasOwnProperty("user")) {
         return next()
     }
 

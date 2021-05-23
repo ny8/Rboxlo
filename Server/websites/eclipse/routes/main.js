@@ -8,7 +8,7 @@ const user = require(path.join(global.rboxlo.root, "websites", "eclipse", "lib",
 var csrf = csurf({ cookie: true })
 
 router.get("/", user.loggedOut, csrf, (req, res) => {
-    res.render("home", { page: { title: "Home", home: true }, objects: { csrf: req.csrfToken() } })
+    res.render("home", { title: "Home", objects: { csrf: req.csrfToken() } })
 })
 
 module.exports = router

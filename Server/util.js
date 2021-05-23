@@ -38,8 +38,7 @@ exports.readFile = (path) => {
  */
 exports.getVersion = () => {
     let out = {
-        name: exports.titlecase(global.rboxlo.env.NAME),
-        version: exports.readFile(path.join(__dirname, "packaging", "version"))
+        semver: exports.readFile(path.join(__dirname, "packaging", "version"))
     }
 
     if (fs.existsSync(path.join(__dirname, "packaging", "commit"))) {

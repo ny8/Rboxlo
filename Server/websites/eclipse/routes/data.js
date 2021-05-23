@@ -2,17 +2,18 @@ var router = require("express").Router()
 
 const fs = require("fs")
 const path = require("path")
+const validator = require("validator")
 
 const user = require(path.join(global.rboxlo.root, "websites", "eclipse", "lib", "user"))
 
 // This route is authbarred
 router.get("/thumbnail/user", user.authenticated, (req, res) => {
-    if (req.query.id === undefined) {
+    if (!req.query.hasOwnProperty("id")) {
         return res.sendStatus(404)
     }
 
     let id = parseInt(req.query.id)
-    if (isNaN(id)) {
+    if (isNaN(id) || !validator.isInt(req.query.id)) {
         return res.sendStatus(404)
     }
 

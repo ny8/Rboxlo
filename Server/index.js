@@ -48,6 +48,9 @@ for (let i = 0; i < keys.length; i++) {
 // Set root
 global.rboxlo.root = __dirname
 
+// Set titlecased name
+global.rboxlo.name = util.titlecase(global.rboxlo.env.NAME)
+
 // Set Node debugging variables
 process.env.NODE_ENV = (global.rboxlo.env.PRODUCTION ? "production" : "development")
 if (!global.rboxlo.env.PRODUCTION) process.env.DEBUG = "express:*"
@@ -71,7 +74,7 @@ for (const [name, website] of Object.entries(manifest)) {
 // Boot everything up
 // 1: Website master server
 app.listen(global.rboxlo.env.SERVER_PORT, () => {
-    console.log(`Running ${util.titlecase(global.rboxlo.env.NAME)} on port ${global.rboxlo.env.SERVER_PORT}`)
+    console.log(`Running ${global.rboxlo.name} on port ${global.rboxlo.env.SERVER_PORT}`)
 })
 
 // 2: Services (Okra, etc.)

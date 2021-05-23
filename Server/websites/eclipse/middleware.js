@@ -10,11 +10,21 @@ async function middleware(req, res) {
     req.session.rboxlo = {}
     req.session.rboxlo.bust = moment().unix() // resets contents each page req
 
+    //
     // X-Powered-By header
-    // A: Why is it an ASCII char array? To hopefully deter CTRL+SHIFT+Fs of "Rboxlo"
-    // B: Why is "Rboxlo" hardcoded here? Because Rboxlo is the application powering it
+    // The string "Rboxlo" here is hardcoded in the form of a ASCII charcode array. Why?
+    //
+    // 1. Given the audience of Rboxlo, most edits scrubbing Rboxlo off of their private server will be through
+    //    complete search and replaces, rather than simply editing the environment file though that achieves the
+    //    same effect. Hardcoding it as an ASCII charcode array will hopefully deter that.
+    //
+    // 2. Rboxlo is an application that powers private servers. It is not a private server in itself. It is important
+    //    to retain the fact that it powers private servers.
+    //
     if (global.rboxlo.env.SERVER_X_POWERED_BY) {
-        let poweredBy = [ 82, 98, 111, 120, 108, 111, 47, 49, 46, 48, 46, 48 ] // "Rboxlo/1.0.0"
+        let poweredBy = [ 82, 98, 111, 120, 108, 111, 47 ] // Literal "Rboxlo/"
+        
+        poweredBy = `${String.fromCharCode.apply(null, poweredBy)}/${util.getVersion().semver}`
         res.setHeader("X-Powered-By", String.fromCharCode.apply(null, poweredBy))
     }
 
@@ -22,7 +32,7 @@ async function middleware(req, res) {
     let realip = req.connection.remoteAddress.trim()
     if (realip.startsWith("::ffff:")) realip = realip.slice(7)
 
-    if (req.headers["http_cf_connecting_ip"] && global.rboxlo.env.SERVER_CLOUDFLARE) {
+    if (req.headers.hasOwnProperty("http_cf_connecting_ip") && global.rboxlo.env.SERVER_CLOUDFLARE) {
         let cfip = req.headers["http_cf_connecting_ip"].trim()
         req.rboxlo.ip = ((realip != cfip) ? cfip : realip)
     } else {
@@ -30,7 +40,7 @@ async function middleware(req, res) {
     }
 
     // Session security
-    if (!req.session.rboxlo.ip) {
+    if (!req.session.rboxlo.hasOwnProperty("ip")) {
         req.session.rboxlo.ip = req.rboxlo.ip
     } else {
         if (req.session.rboxlo.ip !== req.rboxlo.ip) {

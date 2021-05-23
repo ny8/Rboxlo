@@ -35,4 +35,4 @@ RUN adduser \
 USER app
 
 EXPOSE ${SERVER_PORT}
-CMD [ "node", "index.js" ]
+CMD [ "npm", "start" ]
