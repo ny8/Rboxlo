@@ -24,8 +24,7 @@ async function middleware(req, res) {
     if (global.rboxlo.env.SERVER_X_POWERED_BY) {
         let poweredBy = [ 82, 98, 111, 120, 108, 111, 47 ] // Literal "Rboxlo/"
         
-        poweredBy = `${String.fromCharCode.apply(null, poweredBy)}/${util.getVersion().semver}`
-        res.setHeader("X-Powered-By", String.fromCharCode.apply(null, poweredBy))
+        res.setHeader("X-Powered-By", `${String.fromCharCode.apply(null, poweredBy)}/${util.getVersion().semver}`)
     }
 
     // Get IP and store in req.rboxlo.ip
