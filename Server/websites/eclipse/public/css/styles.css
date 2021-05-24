@@ -6,7 +6,7 @@
 .rboxlo-color-1 { background-color: #a0f !important }
 .rboxlo-color-2 { background-color: #c75aff !important }
 .rboxlo-color-muted { background-color: #dd98ff !important }
-.error-text { background-color: #ff3e3e }
+.error-text { color: #ff3e3e }
 
 .inherit-color { color: inherit !important }
 .vertical-align-middle { vertical-align: middle !important }
